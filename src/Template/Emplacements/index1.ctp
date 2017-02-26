@@ -4,22 +4,6 @@
   */
 ?>
 <script>
-$(function () {
-  $(".emplacement").dblclick(function () {
-    var OriginalContent = $(this).text();
-    $(this).addClass("cellEditing");
-    $(this).html("<input type='text' value='" + OriginalContent + "' />");
-    $(this).children().first().focus();
-    $(this).children().first().keypress(function (e) {
-      if (e.which == 13) {
-        var newContent = $(this).val(); $(this).parent().text(newContent);
-        $(this).parent().removeClass("cellEditing"); } });
-        $(this).children().first().blur(function(){
-          $(this).parent().text(OriginalContent);
-          $(this).parent().removeClass("cellEditing");
-        });
-      });
-    });
 
 
 </script>
@@ -43,37 +27,33 @@ $(function () {
 </nav>
 <div class="emplacements index large-9 medium-8 columns content">
     <h3><?= __('Emplacements') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('DC_Emplacement') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
+    <table id= "table" cellpadding="0" cellspacing="0">
+
+              <tr class="table-row header">
+                <th class="column-title id" scope="col"><?= __('id') ?></th>
+                <th class="column-title emplacement" scope="col"><?= __('DC_Emplacement') ?></th>
+                <th class="column-title actions"scope="col" ><?= __('Actions') ?></th>
+              </tr>
+
+
             <?php foreach ($emplacements as $emplacement): ?>
-            <tr>
-                <td><?= $this->Number->format($emplacement->id) ?></td>
-                <td class="emplacement"><?= h($emplacement->DC_Emplacement) ?></td>
-                <td class="actions">
+              <tr class="table-row">
+                <td class="column-title id"><?= $emplacement->id ?></td>
+                <td class="column-title emplacement"><?= $emplacement->DC_Emplacement ?></td>
+                <td class="column-title actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $emplacement->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $emplacement->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $emplacement->id], ['confirm' => __('Are you sure you want to delete # {0}?', $emplacement->id)]) ?>
                 </td>
-            </tr>
+              </tr>
             <?php endforeach; ?>
-        </tbody>
+
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
+
 </div>
-<script></script>
+<script>
+$(document).ready(function(){
+  $('#table').flexsort();
+})
+
+</script>

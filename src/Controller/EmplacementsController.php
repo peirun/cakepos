@@ -106,4 +106,10 @@ class EmplacementsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function index1(){
+      $emplacements =  $this->Emplacements->find();
+      $this->set(compact('emplacements'));
+      $this->set('_serialize', ['emplacements']);
+    }
 }

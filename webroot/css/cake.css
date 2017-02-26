@@ -1,3 +1,4 @@
+
 .disabled a,
 a.disabled {
     pointer-events: none;
@@ -115,12 +116,7 @@ ul.pagination .disabled:hover a {
     color: rgba(0, 0 ,0 , 0.54);
 }
 
-.asc:after {
-    content: " \2193";
-}
-.desc:after {
-    content: " \2191";
-}
+
 
 .form .error-message {
     display: block;
@@ -523,3 +519,19 @@ table td {
     vertical-align: top;
     word-break: break-all;
 }
+
+div.arrow{
+    display:block;
+  }
+
+  div.arrow > svg{
+      width:1.4rem;
+      height:0.7rem;
+    }
+    div.arrow > svg.asc{
+        transform:rotate(270deg);
+      }
+
+      div.arrow > svg.desc{
+    transform:rotate(90deg);
+  }

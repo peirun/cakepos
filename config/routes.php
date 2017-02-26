@@ -74,56 +74,57 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
 
     $routes->extensions(['json', 'xml']);
-    $routes->resources('Emplacements', [
-   'map' => [
-       'index' => [
-           'action' => 'index',
-           'method' => 'GET',
-           'id' => false
-       ]
-   ]
- ]);
 
-  $routes->resources('Emplacements', [
-   'map' => [
-   'view' => [
-       'action' => 'view',
-       'method' => 'GET',
-       'id' => true
-   ]
-]
-]);
-
-$routes->resources('Emplacements', [
-'map' => [
-   'add' => [
-       'action' => 'add',
-       'method' => 'POST',
-       'id' => false
-   ]
-]
-]);
-
-$routes->resources('Emplacements', [
-'map' => [
-   'edit' => [
-       'action' => 'edit',
-       'method' => 'PUT',
-       'id' => true
-   ]
-]
-]);
-
-$routes->resources('Emplacements', [
-'delete' => [
-   'index' => [
-       'action' => 'delete',
-       'method' => 'DELETE',
-       'id' => true
-   ]
-]
-]);
-    // $routes->resources('Emplacements');
+//     $routes->resources('Emplacements', [
+//    'map' => [
+//        'index' => [
+//            'action' => 'index',
+//            'method' => 'GET',
+//            'id' => false
+//        ]
+//    ]
+//  ]);
+//
+//   $routes->resources('Emplacements', [
+//    'map' => [
+//    'view' => [
+//        'action' => 'view',
+//        'method' => 'GET',
+//        'id' => true
+//    ]
+// ]
+// ]);
+//
+// $routes->resources('Emplacements', [
+// 'map' => [
+//    'add' => [
+//        'action' => 'add',
+//        'method' => 'POST',
+//        'id' => false
+//    ]
+// ]
+// ]);
+//
+// $routes->resources('Emplacements', [
+// 'map' => [
+//    'edit' => [
+//        'action' => 'edit',
+//        'method' => 'PUT',
+//        'id' => true
+//    ]
+// ]
+// ]);
+//
+// $routes->resources('Emplacements', [
+// 'delete' => [
+//    'index' => [
+//        'action' => 'delete',
+//        'method' => 'DELETE',
+//        'id' => true
+//    ]
+// ]
+// ]);
+$routes->resources('Emplacements');
     $routes->fallbacks(DashedRoute::class);
 });
 
