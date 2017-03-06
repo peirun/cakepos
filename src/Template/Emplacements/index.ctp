@@ -44,38 +44,26 @@ $(function () {
 //
 // });
 </script>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Emplacement'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Aaps'), ['controller' => 'Aaps', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Aap'), ['controller' => 'Aaps', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Deltas'), ['controller' => 'Deltas', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Delta'), ['controller' => 'Deltas', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Mailcapacitaires'), ['controller' => 'Mailcapacitaires', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Mailcapacitaire'), ['controller' => 'Mailcapacitaires', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Qfabrics'), ['controller' => 'Qfabrics', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Qfabric'), ['controller' => 'Qfabrics', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Skswitches'), ['controller' => 'Skswitches', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Skswitch'), ['controller' => 'Skswitches', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Vlans'), ['controller' => 'Vlans', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Vlan'), ['controller' => 'Vlans', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="emplacements index large-9 medium-8 columns content">
+<div class="col-xs-12  col-sm-12 col-md-10 col-md-offset-1 col-lg-10  col-lg-offset-1" style="margin-top:150px">
+<div class="table-responsive">
     <h3><?= __('Emplacements') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+    <table class="js-dynamitable     table table-bordered" id = "table">
         <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('DC_Emplacement') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
+      <tr>
+         <th scope="col"><?= __('id') ?><span class="js-sorter-desc     glyphicon glyphicon-chevron-down pull-right"></span> <span class="js-sorter-asc     glyphicon glyphicon-chevron-up pull-right"></span> </th>
+         <th scope="col"><?= __('DC_Emplacement') ?> <span class="js-sorter-desc     glyphicon glyphicon-chevron-down pull-right"></span> <span class="js-sorter-asc     glyphicon glyphicon-chevron-up pull-right"></span> </th>
+         <th scope="col" class="actions"><?= __('Actions') ?> <span class="js-sorter-desc     glyphicon glyphicon-chevron-down pull-right"></span> <span class="js-sorter-asc     glyphicon glyphicon-chevron-up pull-right"></span> </th>
+       </tr>
+       <tr>
+             <th><input class="js-filter  form-control" type="text" value=""></th>
+             <th><input class="js-filter  form-control" type="text" value=""></th>
+
+           </tr>
         </thead>
         <tbody>
             <?php foreach ($emplacements as $emplacement): ?>
-            <tr>
-                <td><?= $this->Number->format($emplacement->id) ?></td>
+            <tr class="data">
+                <td class="text-right"><?= $this->Number->format($emplacement->id) ?></td>
                 <td class="emplacement"><?= h($emplacement->DC_Emplacement) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $emplacement->id]) ?>
@@ -86,6 +74,8 @@ $(function () {
             <?php endforeach; ?>
         </tbody>
     </table>
+<div class="paging-container" id="tablePaging"> </div>
+</div>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->first('<< ' . __('first')) ?>
@@ -97,4 +87,14 @@ $(function () {
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
-<script></script>
+<script>
+
+$(document).find('.table-responsive').each(function(){
+
+
+        $(this).dynamitable();
+
+
+    });
+
+</script>

@@ -1,7 +1,7 @@
 <div class="col-xs-12  col-sm-12 col-md-10 col-md-offset-1 col-lg-10  col-lg-offset-1" style="margin-top:150px">
 <div class="table-responsive">
     <h3><?= __('Emplacements') ?></h3>
-    <table class="js-dynamitable     table table-bordered">
+    <table class="js-dynamitable     table table-bordered" id = "table">
         <thead>
       <tr>
          <th scope="col"><?= __('id') ?><span class="js-sorter-desc     glyphicon glyphicon-chevron-down pull-right"></span> <span class="js-sorter-asc     glyphicon glyphicon-chevron-up pull-right"></span> </th>
@@ -11,12 +11,12 @@
        <tr>
              <th><input class="js-filter  form-control" type="text" value=""></th>
              <th><input class="js-filter  form-control" type="text" value=""></th>
-             
+
            </tr>
         </thead>
         <tbody>
             <?php foreach ($emplacements as $emplacement): ?>
-            <tr>
+            <tr class="data">
                 <td class="text-right"><?= $this->Number->format($emplacement->id) ?></td>
                 <td class="emplacement"><?= h($emplacement->DC_Emplacement) ?></td>
                 <td class="actions">
@@ -28,16 +28,16 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
+<div class="paging-container" id="tablePaging"> </div>
 </div>
 <script>
-$(document).find('.js-dynamitable').each(function(){
 
-        $(this).dynamitable()
-            .addFilter('.js-filter')
-            .addSorter('.js-sorter-asc', 'asc')
-            .addSorter('.js-sorter-desc', 'desc')
-        ;
+$(document).find('.table-responsive').each(function(){
+
+
+        $(this).dynamitable();
+
+
     });
 
 </script>
