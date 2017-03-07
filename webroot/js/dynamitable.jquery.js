@@ -14,7 +14,7 @@
     		LAST_PAGE_NUMBER = -4,
 
     		isDisabled = options.isDisabled || false,
-    		itemsCount = $(this).find('tbody >tr').length,
+    		itemsCount = $(this).find('tr.filter').length,
     		currentPage = options.currentPage || 1,
     		pageRange = options.pageRange || [10, 20, 30, -1], //-1 (All)
     		pageSize = options.pageSize || pageRange[0],
@@ -47,11 +47,10 @@
         console.log(paging);
         var start = paging.pageSize * (paging.currentPage - 1),
           end = start + paging.pageSize,
-          $rows = Pagination.find('.data');
-          alert(JSON.stringify($rows));
-        $rows.hide();
+          $rows = Pagination.find('.filter');
+          $rows.hide();
 
-        for (var i = start; i < end; i++) {
+          for (var i = start; i < end; i++) {
           $rows.eq(i).show();
         }
       };
@@ -351,10 +350,16 @@
 
           var regex = new RegExp(matches, 'i');
           dynamitableCore.getRows().each(function () {
+            if(!$(this).hasClass("filter")){
+              $(this).addClass('filter');
+            }
               if(true !== regex.test(dynamitableCore.getValue(index, $(this)))) {
-                  $(this).hide();
+                  $(this).removeClass('filter');
               }
           });
+
+          toggleElements();
+          goToFirstPage();
       };
       /**********************************************
        * dynamitable.addFilter(selector)
@@ -373,12 +378,13 @@
           // the filter
           var filterAction = function() {
 
-
+                Pagination.displayAll();
 
                $(Pagination.filterList).each(function(index, selector) {
 
                   $(Pagination).find(selector).each(function() {
                       var $this =  $(this);
+
                       Pagination.filter(dynamitableCore.getIndex($this.parent('td, th')), $this.val());
                   });
 

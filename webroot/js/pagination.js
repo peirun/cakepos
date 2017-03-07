@@ -30,7 +30,7 @@ var Pagination = function (el, options) {
 		init, changePageSize, reRenderPageNumbers, getRenderedPageNumbers, getPageNumbersToDisplay,
 		getPagesCount, goNextPage, goPreviousPage, goToPage, disable, enable, getRenderedPager,
 		process, getRenderedPageRange, toggleElements, onPageClick, onPageRangeComboChange, goToFirstPage, goToLastPage;
-//ok
+
 	init = function () {
 		$container.html(getRenderedPager());
 		$pagesContainer = $container.find('.pagination');
@@ -43,7 +43,7 @@ var Pagination = function (el, options) {
 
 		process();
 	};
-//ok
+
 	onPageRangeComboChange = function () {
 		var psValue = Number($(this).val()),
 			ps = psValue === ALL ? itemsCount : psValue;
@@ -57,7 +57,7 @@ var Pagination = function (el, options) {
 			toggleElements();
 		}
 	};
-//ok
+
 	onPageClick = function () {
 		var $p = $(this),
 			page = $p.data('page');
@@ -84,7 +84,7 @@ var Pagination = function (el, options) {
 			toggleElements();
 		}
 	};
-//ok
+
 	toggleElements = function () {
 		var pageCount = getPagesCount();
 
@@ -98,16 +98,15 @@ var Pagination = function (el, options) {
 		pageSize = ps;
 		goToPage(1);
 	};
-//ok
+
 	reRenderPageNumbers = function () {
 		$pagesContainer.html(getRenderedPageNumbers());
 	};
 
-//ok
 	getRenderedPager = function () {
 		return '<ul class="pagination">' + getRenderedPageNumbers() + '</ul>' + getRenderedPageRange();
 	};
-//ok
+
 	getRenderedPageRange = function () {
 		var result = '<select class="page-range">';
 
@@ -123,15 +122,15 @@ var Pagination = function (el, options) {
 		var pageNumbers = getPageNumbersToDisplay(),
 			result;
 
-		result = '<li data-page="' + FIRST_PAGE_NUMBER + '"><a href="javascipt:void(0)"><span aria-hidden="true">' + firstPageLabel + '</span></a></li>' +
-				 '<li data-page="' + PREVIOUS_PAGE_NUMBER + '"><a href="javascipt:void(0)"><span aria-hidden="true">' + previousPageLabel + '</span></a></li>';
+		result = '<li data-page="' + FIRST_PAGE_NUMBER + '"><a><span aria-hidden="true">' + firstPageLabel + '</span></a></li>' +
+				 '<li data-page="' + PREVIOUS_PAGE_NUMBER + '"><a><span aria-hidden="true">' + previousPageLabel + '</span></a></li>';
 
 		$.each(pageNumbers, function (i, p) {
-			result += '<li data-page="' + p + '" ' + (p === currentPage ? 'class="active"' : '') + '><a href="javascipt:void(0)">' + p + '</a></li>';
+			result += '<li data-page="' + p + '" ' + (p === currentPage ? 'class="active"' : '') + '><a>' + p + '</a></li>';
 		});
 
-		result += '<li data-page="' + NEXT_PAGE_NUMBER + '"><a href="javascipt:void(0)"><span aria-hidden="true">' + nextPageLabel + '</span></a></li>' +
-				  '<li data-page="' + LAST_PAGE_NUMBER + '"><a href="javascipt:void(0)"><span aria-hidden="true">' + lastPageLabel + '</span></a></li>';
+		result += '<li data-page="' + NEXT_PAGE_NUMBER + '"><a ><span aria-hidden="true">' + nextPageLabel + '</span></a></li>' +
+				  '<li data-page="' + LAST_PAGE_NUMBER + '"><a ><span aria-hidden="true">' + lastPageLabel + '</span></a></li>';
 
 		return result;
 	};
@@ -168,9 +167,6 @@ var Pagination = function (el, options) {
 		return pageNumbers;
 	};
 
-	/*
-		get page number
-	*/
 	getPagesCount = function () {
 		return Math.ceil(itemsCount / pageSize);
 	};
@@ -238,3 +234,261 @@ var Pagination = function (el, options) {
 	this.disable = disable;
 	this.enable = enable;
 };
+
+!function($){ 'use strict';
+
+    $.fn.dynamitable = function(options) {
+
+        /**********************************************
+         * dynamitable
+         **********************************************/
+        var dynamitable = this;
+
+        /**********************************************
+         * dynamitableCore
+         **********************************************/
+        var dynamitableCore = new (function($dynamitable) {
+
+            /**********************************************
+             * dynamitableCore.getIndex($field)
+             *
+             * get the index of a field
+             *
+             * return integer
+             **********************************************/
+            this.getIndex = function($field) {
+                return $field.parents('tr').children('td, th').index($field);
+            };
+
+            /**********************************************
+             * dynamitableCore.getBody()
+             *
+             * get the body of the table
+             *
+             * return dom
+             **********************************************/
+            this.getBody = function() {
+                return $dynamitable.find('tbody');
+            };
+
+            /**********************************************
+             * dynamitableCore.getRows()
+             *
+             * get all row inside the body of the table
+             *
+             * return dom
+             **********************************************/
+            this.getRows = function() {
+                return this.getBody().children('tr');
+            };
+
+            /**********************************************
+             * dynamitableCore.getField(index, $row)
+             *
+             * get a field
+             *
+             * return dom
+             **********************************************/
+            this.getField = function(index, $row) {
+                return $row.children('td, th').eq(index);
+            };
+
+            /**********************************************
+             * dynamitableCore.getValue(index, $row)
+             *
+             * get a field value
+             *
+             * return string
+             **********************************************/
+            this.getValue = function(index, $row) {
+                return this.getField(index, $row).text();
+            };
+
+        })($(this));
+
+        /**********************************************
+         * dynamitable.filterList
+         *
+         * list of filter selector
+         *
+         * array of string
+         **********************************************/
+        this.filterList = [];
+
+        /**********************************************
+         * dynamitable.displayAll()
+         *
+         * show all <tr>
+         *
+         * return dynamitable
+         **********************************************/
+        this.displayAll = function() {
+
+            dynamitableCore.getRows().each(function() {
+                $(this).show();
+            });
+
+            return this;
+        };
+
+        /**********************************************
+         * dynamitable.filter(index, matches)
+         *
+         * hide all <tr> that doen't martch
+         *
+         * - index (integer): index of the colum to filter
+         * - matches (string)  : string to search on the colum
+         *
+         * return dynamitable
+         **********************************************/
+        this.filter = function filter(index, matches) {
+
+            var regex = new RegExp(matches, 'i');
+            var count=0;
+            dynamitableCore.getRows().each(function () {
+              
+                //alert($(this).find('td').text());
+                if(true !== regex.test(dynamitableCore.getValue(index, $(this)))) {
+              //  if(true !== false) {
+                      $(this).removeClass('filter');
+                }
+            });
+            alert(count);
+            return this;
+        };
+
+        /**********************************************
+         * dynamitable.addFilter(selector)
+         *
+         * add filter event on element inside the table heading
+         *
+         * - selector (string) : selector of the element that trigger the event
+         *
+         * return dynamitable
+         **********************************************/
+        this.addFilter = function addFilter(selector) {
+
+            // add the selector on the filter list
+            dynamitable.filterList.push(selector);
+
+            // the filter
+            var filterAction = function() {
+
+                 $(dynamitable.filterList).each(function(index, selector) {
+
+                    $(dynamitable).find(selector).each(function() {
+                        var $this =  $(this);
+                        dynamitable.filter(dynamitableCore.getIndex($this.parent('td, th')), $this.val());
+                    });
+
+                    $('#tablePaging').empty();
+          Pagination('#tablePaging', {
+					itemsCount: dynamitable.find('.filter').length,
+
+					onPageSizeChange: function (ps) {
+						console.log('changed to ' + ps);
+					},
+					onPageChange: function (paging) {
+						//custom paging logic here
+						console.log(paging);
+						var start = paging.pageSize * (paging.currentPage - 1),
+							end = start + paging.pageSize,
+							$rows = dynamitable.find('.data');
+
+						$rows.hide();
+
+            var count =0;
+
+
+            for (var i = start; i < dynamitable.find('.data').length; i++) {
+              if($rows.eq(i).hasClass('filter')){
+                $rows.eq(i).show();
+                if(count<paging.pageSize){
+                  count++;
+                }else{
+                  return;
+                }
+
+              }
+
+            }
+					}
+				});
+                 });
+            };
+
+            // attach the filter action to the selector
+            $(selector).on('change keyup keydown', filterAction);
+
+            // initialization
+            filterAction();
+
+            return this;
+        };
+
+        /**********************************************
+         * dynamitable.addSorter(selector, order)
+         *
+         * add soter event on element inside the table heading
+         *
+         * - selector (string) : selector of the element that trigger the event
+         * - order (string) :  sorting order [asc, desc]
+         *
+         * return dynamitable
+         **********************************************/
+        this.addSorter = function addSorter(selector, order) {
+
+            $(dynamitable).find(selector).each(function() {
+                var $this = $(this);
+
+                var index = dynamitableCore.getIndex($this.parent('td, th'));
+
+                $this.on('click', function() { dynamitable.sorter(index, order); });
+            });
+
+            return this;
+        };
+
+        /**********************************************
+         * dynamitable.sorter(index, order)
+         *
+         * - index (integer): index of the colum to sorter
+         * - order (string)  : sorting order [asc, desc]
+         *
+         * return dynamitable
+         **********************************************/
+        this.sorter = function sorter(index, order) {
+
+           dynamitableCore.getBody().append(dynamitableCore.getRows().detach().sort(function(row_a, row_b) {
+
+                var value_a = dynamitableCore.getValue(index, $(row_a));
+                var value_b = dynamitableCore.getValue(index, $(row_b));
+
+                var order_desc = ('desc' === order) ? true : false;
+
+                // numeric order mode
+                if(value_a.replace(/[^\d-]/g, '') !== '' && value_b.replace(/[^\d-]/g, '') !== '') {
+                    value_a = parseFloat(value_a.replace(/[^[\d],.-+]/g, ''));
+                    value_b = parseFloat(value_b.replace(/[^[\d],.-+]/g, ''));
+                }
+
+                if(value_a === value_b) {
+                    return 0;
+                }
+
+                return (value_a > value_b) ? order_desc ? 1 : -1 : order_desc ? -1 : 1;
+
+            }));
+
+            return this;
+        };
+
+        return this;
+    };
+
+    /**********************************************
+     * Dynamitable trigger
+     **********************************************/
+
+
+}(jQuery);

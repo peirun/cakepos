@@ -1,7 +1,20 @@
-<div class="col-xs-12  col-sm-12 col-md-10 col-md-offset-1 col-lg-10  col-lg-offset-1" style="margin-top:150px">
-<div class="table-responsive">
+<div class="container">
+		<h1>jQuery Pagination Tables Plugin Demo</h1>
+				<div class="form-group"> 	<!--		Show Numbers Of Rows 		-->
+			 		<select class  ="form-control" name="state" id="maxRows">
+						 <option value="5000">Show ALL Rows</option>
+						 <option value="5">5</option>
+						 <option value="10">10</option>
+						 <option value="15">15</option>
+						 <option value="20">20</option>
+						 <option value="50">50</option>
+						 <option value="70">70</option>
+						 <option value="100">100</option>
+						</select>
+
+			  	</div>
     <h3><?= __('Emplacements') ?></h3>
-    <table class="js-dynamitable     table table-bordered" id = "table">
+    <table class="table table-striped table-class js-dynamitable" id= "table-id">
         <thead>
       <tr>
          <th scope="col"><?= __('id') ?><span class="js-sorter-desc     glyphicon glyphicon-chevron-down pull-right"></span> <span class="js-sorter-asc     glyphicon glyphicon-chevron-up pull-right"></span> </th>
@@ -16,7 +29,7 @@
         </thead>
         <tbody>
             <?php foreach ($emplacements as $emplacement): ?>
-            <tr class="data filter">
+            <tr class="data">
                 <td class="text-right"><?= $this->Number->format($emplacement->id) ?></td>
                 <td class="emplacement"><?= h($emplacement->DC_Emplacement) ?></td>
                 <td class="actions">
@@ -28,17 +41,23 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-<div class="paging-container" id="tablePaging"> </div>
+    <!--		Start Pagination -->
+    			<div class='pagination-container' >
+    				<nav>
+    				  <ul class="pagination">
+    				   <!--	Here the JS Function Will Add the Rows -->
+    				  </ul>
+    				</nav>
+    			</div>
 </div>
-<script>
 
+<script>
 $(document).find('.js-dynamitable').each(function(){
 
-    $(this).dynamitable()
-        .addFilter('.js-filter')
-        .addSorter('.js-sorter-asc', 'asc')
-        .addSorter('.js-sorter-desc', 'desc')
-    ;
-});
-
-</script>
+        $(this).dynamitable()
+            .addFilter('.js-filter')
+            .addSorter('.js-sorter-asc', 'asc')
+            .addSorter('.js-sorter-desc', 'desc')
+        ;
+    });
+  </script>
