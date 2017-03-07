@@ -331,6 +331,25 @@ var Pagination = function (el, options) {
             return this;
         };
 
+				/**********************************************
+         * dynamitable.resetFilter()
+         *
+         * reset all tr class with filter
+         *
+         * return dynamitable
+         **********************************************/
+				this.resetFilter = function() {
+
+            dynamitableCore.getRows().each(function() {
+							if(!$(this).hasClass('filter')){
+									$(this).addClass('filter');
+							}
+            });
+
+            return this;
+        };
+
+
         /**********************************************
          * dynamitable.filter(index, matches)
          *
@@ -344,16 +363,14 @@ var Pagination = function (el, options) {
         this.filter = function filter(index, matches) {
 
             var regex = new RegExp(matches, 'i');
-            var count=0;
+
             dynamitableCore.getRows().each(function () {
-              
-                //alert($(this).find('td').text());
+
                 if(true !== regex.test(dynamitableCore.getValue(index, $(this)))) {
-              //  if(true !== false) {
                       $(this).removeClass('filter');
                 }
             });
-            alert(count);
+
             return this;
         };
 
@@ -373,11 +390,13 @@ var Pagination = function (el, options) {
 
             // the filter
             var filterAction = function() {
-
+									dynamitable.resetFilter();
                  $(dynamitable.filterList).each(function(index, selector) {
 
                     $(dynamitable).find(selector).each(function() {
                         var $this =  $(this);
+
+
                         dynamitable.filter(dynamitableCore.getIndex($this.parent('td, th')), $this.val());
                     });
 
@@ -397,7 +416,7 @@ var Pagination = function (el, options) {
 
 						$rows.hide();
 
-            var count =0;
+            var count =1;
 
 
             for (var i = start; i < dynamitable.find('.data').length; i++) {
