@@ -108,7 +108,12 @@ class EmplacementsController extends AppController
     }
 
     public function index1(){
+<<<<<<< HEAD
       $emplacements =  $this->Emplacements->find();
+=======
+      $emplacements = $this->Emplacements->find('all');
+
+>>>>>>> temp
       $this->set(compact('emplacements'));
       $this->set('_serialize', ['emplacements']);
     }
